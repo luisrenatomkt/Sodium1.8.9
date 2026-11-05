@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+
+      # ForgeGradle 2.1 exige Gradle 2.14.x (sem wrapper no repositorio)
+      - name: Instalar Gradle 2.14.1
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-2.14.1-bin.zip
+          unzip -q gradle-2.14.1-bin.zip
+          echo "$PWD/gradle-2.14.1/bin" >> "$GITHUB_PATH"
+
+      - name: Build
+        run: gradle setupCIWorkspace build --no-daemon --stacktrace
+
+      - name: Enviar JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sodium-1.8.9-Forge
+          path: build/libs/*.jar
