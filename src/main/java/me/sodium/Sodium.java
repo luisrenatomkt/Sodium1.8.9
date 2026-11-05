@@ -2,6 +2,7 @@ package me.sodium;
 
 import me.sodium.core.SodiumCore;
 import me.sodium.hooks.RenderGlobalHook;
+import me.sodium.diagnostics.FrameProfiler;
 import me.sodium.diagnostics.SodiumDiagCommand;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -23,7 +24,7 @@ public class Sodium {
     public static final String MODID = "sodium189";
     public static final String NAME = "Sodium 1.8.9";
     /** Manter igual a "version" em build.gradle. */
-    public static final String VERSION = "0.2.0-phase2a";
+    public static final String VERSION = "0.2.1-phase2a";
 
     public static final Logger LOGGER = LogManager.getLogger("Sodium189");
 
@@ -46,10 +47,21 @@ public class Sodium {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase == TickEvent.Phase.START) {
+            FrameProfiler.onClientTickStart();
             return;
         }
+        FrameProfiler.onClientTickEnd();
         SodiumCore.probeGraphics();
         RenderGlobalHook.tick();
+    }
+
+    @SubscribeEvent
+    public void onRenderTick(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            FrameProfiler.onRenderStart();
+        } else {
+            FrameProfiler.onRenderEnd();
+        }
     }
 }

@@ -39,6 +39,9 @@ public class SodiumDiagCommand extends CommandBase {
                     + " MultiDrawIndirect=" + g.multiDrawIndirect);
         }
         say(sender, "Hook de render: " + RenderGlobalHook.state());
+        for (String line : FrameProfiler.describe().split("\n")) {
+            say(sender, line);
+        }
         if (RenderMetrics.hasSnapshot()) {
             say(sender, String.format(java.util.Locale.ROOT, "%.0f chunk-draws/frame, %.3f ms CPU/frame no terreno",
                     RenderMetrics.drawsPerFrame(), RenderMetrics.terrainCpuMsPerFrame()));

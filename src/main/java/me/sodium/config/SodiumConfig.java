@@ -18,14 +18,17 @@ public final class SodiumConfig {
     public final boolean writeDiagnosticsOnStartup;
     /** Instala o container de render com medicao no RenderGlobal (Fase 2A). */
     public final boolean enableRenderHook;
+    /** Mede tempo de frame (CPU/GPU) para diagnostico. */
+    public final boolean enableFrameProfiler;
     /** Threads de construcao de chunks. Lido a partir da Fase 4 (Worker System); ja validado aqui. */
     public final int chunkBuilderThreads;
 
     private SodiumConfig(boolean debugLogging, boolean writeDiagnosticsOnStartup, boolean enableRenderHook,
-                         int chunkBuilderThreads) {
+                         boolean enableFrameProfiler, int chunkBuilderThreads) {
         this.debugLogging = debugLogging;
         this.writeDiagnosticsOnStartup = writeDiagnosticsOnStartup;
         this.enableRenderHook = enableRenderHook;
+        this.enableFrameProfiler = enableFrameProfiler;
         this.chunkBuilderThreads = chunkBuilderThreads;
     }
 
@@ -45,9 +48,11 @@ public final class SodiumConfig {
             boolean hook = cfg.getBoolean("enableRenderHook", "general", true,
                     "Instala o container de render do Sodium189 (Fase 2A: so mede, nao altera o desenho). "
                             + "Desative se suspeitar de conflito com outro mod.");
+            boolean prof = cfg.getBoolean("enableFrameProfiler", "general", true,
+                    "Mede tempo de frame na CPU e na GPU (consulta de tempo do OpenGL) para o diagnostico. Custo muito baixo.");
             int threads = cfg.getInt("chunkBuilderThreads", "performance", defaultThreads(), 1, MAX_THREADS,
                     "Numero de threads de construcao de chunks (usado a partir da Fase 4).");
-            return new SodiumConfig(debug, diag, hook, threads);
+            return new SodiumConfig(debug, diag, hook, prof, threads);
         } finally {
             if (cfg.hasChanged()) {
                 cfg.save();

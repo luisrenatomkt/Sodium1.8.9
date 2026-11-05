@@ -74,6 +74,9 @@ public final class DiagnosticReport {
             sb.append(e.getKey()).append(": ").append(e.getValue()).append(nl);
         }
 
+        sb.append(nl).append("--- Perfil de frame ---").append(nl);
+        sb.append(FrameProfiler.describe());
+
         sb.append(nl).append("--- Renderizacao (Fase 2A: somente medicao) ---").append(nl);
         sb.append("Hook do RenderGlobal: ").append(RenderGlobalHook.state()).append(nl);
         if (RenderMetrics.hasSnapshot()) {

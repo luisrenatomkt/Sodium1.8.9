@@ -1,4 +1,4 @@
-# Sodium 1.8.9 (Forge) - Fase 2A: integracao e medicao
+# Sodium 1.8.9 (Forge) - Fase 2A: integracao e medicao (0.2.1)
 
 Motor de renderizacao **independente**, inspirado em tecnicas do Sodium moderno, para Minecraft 1.8.9 Forge (Java 8, LWJGL 2).
 
@@ -25,4 +25,5 @@ Nenhum codigo do Sodium (PolyForm Shield 1.0.0) foi copiado. O Sodium e usado ap
 3. Digite `/sodiumdiag`. Deve aparecer `Hook de render: instalado: MeteredVboRenderList` (ou `MeteredRenderList` se "Usar VBOs" estiver desligado) e os numeros por frame.
 4. Veja `config/sodium189/diagnostics.txt`, secao Renderizacao.
 5. Confira se o mundo continua igual ao vanilla (sem chunks faltando) e se o FPS nao piorou.
-6. Ligue e desligue "Usar VBOs" em Opcoes > Video e rode `/sodiumdiag` de novo: o nome do container deve acompanhar.
+6. Em `/sodiumdiag` veja tambem o **Perfil de frame**: CPU no render, ticks, restante e GPU. A linha "Leitura" indica se o limite parece ser CPU ou GPU (indicativo, nao definitivo).
+7. Ligue e desligue "Usar VBOs" em Opcoes > Video e rode `/sodiumdiag` de novo: o nome do container deve acompanhar.

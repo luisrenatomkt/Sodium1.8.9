@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 // Manter igual a Sodium.VERSION em src/main/java/me/sodium/Sodium.java
-version = '0.2.0-phase2a'
+version = '0.2.1-phase2a'
 group = 'me.sodium'
 archivesBaseName = 'Sodium-1.8.9-Forge'
 
