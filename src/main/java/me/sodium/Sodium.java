@@ -1,6 +1,7 @@
 package me.sodium;
 
 import me.sodium.core.SodiumCore;
+import me.sodium.hooks.RenderGlobalHook;
 import me.sodium.diagnostics.SodiumDiagCommand;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -22,7 +23,7 @@ public class Sodium {
     public static final String MODID = "sodium189";
     public static final String NAME = "Sodium 1.8.9";
     /** Manter igual a "version" em build.gradle. */
-    public static final String VERSION = "0.1.0-phase1";
+    public static final String VERSION = "0.2.0-phase2a";
 
     public static final Logger LOGGER = LogManager.getLogger("Sodium189");
 
@@ -34,16 +35,13 @@ public class Sodium {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new SodiumDiagCommand());
-        // Caso o contexto OpenGL ainda nao exista no postInit, a sondagem e repetida no tick.
+        // Tick: repete a sondagem da GPU se necessario e mantem o container de render instalado.
         FMLCommonHandler.instance().bus().register(this);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         SodiumCore.postInit();
-        if (SodiumCore.isGraphicsProbeFinished()) {
-            FMLCommonHandler.instance().bus().unregister(this);
-        }
     }
 
     @SubscribeEvent
@@ -51,8 +49,7 @@ public class Sodium {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        if (SodiumCore.probeGraphics()) {
-            FMLCommonHandler.instance().bus().unregister(this);
-        }
+        SodiumCore.probeGraphics();
+        RenderGlobalHook.tick();
     }
 }

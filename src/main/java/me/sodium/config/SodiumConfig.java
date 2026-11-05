@@ -16,12 +16,16 @@ public final class SodiumConfig {
     public final boolean debugLogging;
     /** Escreve diagnostics.txt ao detectar a GPU. */
     public final boolean writeDiagnosticsOnStartup;
+    /** Instala o container de render com medicao no RenderGlobal (Fase 2A). */
+    public final boolean enableRenderHook;
     /** Threads de construcao de chunks. Lido a partir da Fase 4 (Worker System); ja validado aqui. */
     public final int chunkBuilderThreads;
 
-    private SodiumConfig(boolean debugLogging, boolean writeDiagnosticsOnStartup, int chunkBuilderThreads) {
+    private SodiumConfig(boolean debugLogging, boolean writeDiagnosticsOnStartup, boolean enableRenderHook,
+                         int chunkBuilderThreads) {
         this.debugLogging = debugLogging;
         this.writeDiagnosticsOnStartup = writeDiagnosticsOnStartup;
+        this.enableRenderHook = enableRenderHook;
         this.chunkBuilderThreads = chunkBuilderThreads;
     }
 
@@ -38,9 +42,12 @@ public final class SodiumConfig {
                     "Ativa logs detalhados do nucleo.");
             boolean diag = cfg.getBoolean("writeDiagnosticsOnStartup", "general", true,
                     "Grava config/sodium189/diagnostics.txt assim que a GPU for detectada.");
+            boolean hook = cfg.getBoolean("enableRenderHook", "general", true,
+                    "Instala o container de render do Sodium189 (Fase 2A: so mede, nao altera o desenho). "
+                            + "Desative se suspeitar de conflito com outro mod.");
             int threads = cfg.getInt("chunkBuilderThreads", "performance", defaultThreads(), 1, MAX_THREADS,
                     "Numero de threads de construcao de chunks (usado a partir da Fase 4).");
-            return new SodiumConfig(debug, diag, threads);
+            return new SodiumConfig(debug, diag, hook, threads);
         } finally {
             if (cfg.hasChanged()) {
                 cfg.save();

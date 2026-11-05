@@ -123,6 +123,11 @@ public final class SodiumCore {
         return diagnosticsFile;
     }
 
+    /** Apenas a thread principal altera o estado dos modulos. */
+    public static void setModuleStatus(String module, ModuleStatus status) {
+        MODULES.put(module, status);
+    }
+
     public static Map<String, ModuleStatus> modules() {
         return Collections.unmodifiableMap(MODULES);
     }

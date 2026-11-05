@@ -2,6 +2,8 @@ package me.sodium.diagnostics;
 
 import me.sodium.core.SodiumCore;
 import me.sodium.graphics.GraphicsCapabilities;
+import me.sodium.hooks.RenderGlobalHook;
+import me.sodium.renderer.chunk.RenderMetrics;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -35,6 +37,11 @@ public class SodiumDiagCommand extends CommandBase {
             say(sender, "GPU: " + g.rendererString + " | OpenGL " + g.versionString);
             say(sender, "VBO=" + g.vbo + " VAO=" + g.vertexArrayObject + " MapRange=" + g.mapBufferRange
                     + " MultiDrawIndirect=" + g.multiDrawIndirect);
+        }
+        say(sender, "Hook de render: " + RenderGlobalHook.state());
+        if (RenderMetrics.hasSnapshot()) {
+            say(sender, String.format(java.util.Locale.ROOT, "%.0f chunk-draws/frame, %.3f ms CPU/frame no terreno",
+                    RenderMetrics.drawsPerFrame(), RenderMetrics.terrainCpuMsPerFrame()));
         }
         if (SodiumCore.writeDiagnostics()) {
             say(sender, "Relatorio completo: " + SodiumCore.diagnosticsFile().getAbsolutePath());

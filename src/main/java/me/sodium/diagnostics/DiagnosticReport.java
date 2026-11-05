@@ -5,6 +5,8 @@ import me.sodium.compatibility.ModEnvironment;
 import me.sodium.core.ModuleStatus;
 import me.sodium.core.SodiumCore;
 import me.sodium.graphics.GraphicsCapabilities;
+import me.sodium.hooks.RenderGlobalHook;
+import me.sodium.renderer.chunk.RenderMetrics;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.common.Loader;
 
@@ -72,11 +74,23 @@ public final class DiagnosticReport {
             sb.append(e.getKey()).append(": ").append(e.getValue()).append(nl);
         }
 
+        sb.append(nl).append("--- Renderizacao (Fase 2A: somente medicao) ---").append(nl);
+        sb.append("Hook do RenderGlobal: ").append(RenderGlobalHook.state()).append(nl);
+        if (RenderMetrics.hasSnapshot()) {
+            sb.append(String.format(java.util.Locale.ROOT,
+                    "Ultima janela de 1s: %.1f frames/s | %.0f chunk-draws por frame | %.3f ms de CPU emitindo terreno por frame",
+                    RenderMetrics.framesPerSecond(), RenderMetrics.drawsPerFrame(),
+                    RenderMetrics.terrainCpuMsPerFrame())).append(nl);
+            sb.append("(tempo de CPU emitindo chamadas, nao e tempo de GPU)").append(nl);
+        } else {
+            sb.append("Metricas: ainda sem dados (entre em um mundo)").append(nl);
+        }
+
         sb.append(nl).append("--- Compatibilidade (somente deteccao) ---").append(nl);
         sb.append("OptiFine (heuristica por classe): ")
                 .append(ModEnvironment.looksLikeOptiFinePresent() ? "provavelmente presente" : "nao detectado").append(nl);
         sb.append("Conflitos detectados: nenhum (analise de conflitos ainda nao implementada)").append(nl);
-        sb.append("Recursos graficos desativados: nenhum (nenhuma otimizacao esta ativa na Fase 1)").append(nl);
+        sb.append("Recursos graficos desativados: nenhum (nenhuma otimizacao esta ativa na Fase 2A)").append(nl);
         sb.append("Mods carregados:").append(nl);
         for (String mod : ModEnvironment.listLoadedMods()) {
             sb.append("  ").append(mod).append(nl);

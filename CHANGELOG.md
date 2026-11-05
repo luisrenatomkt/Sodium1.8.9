@@ -1,9 +1,12 @@
 # Changelog
 
+## 0.2.0-phase2a
+- Hook por reflexao no `RenderGlobal` (container achado pelo tipo; sem coremod).
+- Containers `MeteredVboRenderList` e `MeteredRenderList`: desenho identico ao original, com medicao de chunk-draws por frame e CPU emitindo terreno.
+- Fallback automatico: OptiFine detectado, container desconhecido ou falha de reflexao.
+- Nova opcao `enableRenderHook` (padrao true).
+- `/sodiumdiag` e `diagnostics.txt` mostram o estado do hook e as metricas.
+- Nenhuma otimizacao de desempenho ainda.
+
 ## 0.1.0-phase1
-- Fundacao: projeto ForgeGradle 2.1 / Forge 1.8.9 / Java 8, somente cliente.
-- Configuracao (config/sodium189/sodium.cfg): debugLogging, writeDiagnosticsOnStartup, chunkBuilderThreads.
-- Deteccao de GPU, versao OpenGL, extensoes e VRAM (quando o driver expoe NVX_gpu_memory_info).
-- Diagnostico em config/sodium189/diagnostics.txt e comando de cliente /sodiumdiag.
-- Deteccao (somente leitura) de OptiFine e lista de mods.
-- Nenhuma otimizacao de renderizacao ainda: o renderizador original continua em uso.
+- Fundacao: configuracao, deteccao de GPU/OpenGL, diagnostico e logs.
