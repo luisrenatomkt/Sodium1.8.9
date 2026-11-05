@@ -1,0 +1,12 @@
+[
+  {
+    "modid": "sodium189",
+    "name": "Sodium 1.8.9",
+    "description": "Motor de renderizacao independente, inspirado em tecnicas do Sodium moderno, para Minecraft 1.8.9 Forge. Fase 1: fundacao, configuracao e diagnostico.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "authorList": ["Projeto Sodium 1.8.9"],
+    "credits": "Inspirado conceitualmente no Sodium (CaffeineMC). Nenhum codigo do Sodium foi copiado.",
+    "useDependencyInformation": false
+  }
+]
